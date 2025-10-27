@@ -333,4 +333,3 @@ MIT License - see LICENSE file for details.
 ---
 
 Made with ❤️ for the CLI community
-```
