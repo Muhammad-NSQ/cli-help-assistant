@@ -1,0 +1,72 @@
+tool_name: "core_utils"
+description: "Essential Unix/Linux command-line utilities"
+category: "system"
+
+commands:
+  - name: "ls"
+    description: "List directory contents"
+    syntax: "ls [options] [file...]"
+    examples:
+      - command: "ls"
+        description: "List files in current directory"
+      - command: "ls -la"
+        description: "List all files with detailed information"
+      - command: "ls -lh"
+        description: "List files with human-readable sizes"
+      - command: "ls *.py"
+        description: "List only Python files"
+    common_options:
+      - flag: "-l"
+        description: "Use long listing format"
+      - flag: "-a"
+        description: "Show hidden files"
+      - flag: "-h"
+        description: "Human-readable file sizes"
+      - flag: "-t"
+        description: "Sort by modification time"
+
+  - name: "cat"
+    description: "Display file contents"
+    syntax: "cat [options] file..."
+    examples:
+      - command: "cat file.txt"
+        description: "Display contents of file.txt"
+      - command: "cat file1.txt file2.txt"
+        description: "Display multiple files concatenated"
+      - command: "cat -n file.txt"
+        description: "Display with line numbers"
+    common_options:
+      - flag: "-n"
+        description: "Number all output lines"
+      - flag: "-b"
+        description: "Number non-empty output lines"
+
+  - name: "find"
+    description: "Search for files and directories"
+    syntax: "find path [expression]"
+    examples:
+      - command: "find . -name '*.py'"
+        description: "Find all Python files in current directory"
+      - command: "find /home -type f -size +10M"
+        description: "Find files larger than 10MB in /home"
+      - command: "find . -mtime -7"
+        description: "Find files modified in last 7 days"
+      - command: "find . -name '*.log' -delete"
+        description: "Find and delete log files"
+    common_options:
+      - flag: "-name"
+        description: "Search by filename pattern"
+      - flag: "-type f"
+        description: "Find only files"
+      - flag: "-type d"
+        description: "Find only directories"
+      - flag: "-size"
+        description: "Search by file size"
+
+workflows:
+  - name: "Find and examine files"
+    description: "Locate files and check their contents"
+    steps:
+      - "find . -name '*.conf'  # Find config files"
+      - "ls -la found_file.conf  # Check file details"
+      - "cat found_file.conf     # View contents"

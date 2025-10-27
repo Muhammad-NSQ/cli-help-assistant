@@ -1,0 +1,63 @@
+tool_name: "git"
+description: "Distributed version control system"
+category: "development"
+
+commands:
+  - name: "git status"
+    description: "Show the working tree status"
+    syntax: "git status [options]"
+    examples:
+      - command: "git status"
+        description: "Show current branch and file changes"
+      - command: "git status --short"
+        description: "Show compact status output"
+    common_options:
+      - flag: "--short"
+        description: "Give output in short format"
+      - flag: "--branch"
+        description: "Show branch and tracking info"
+
+  - name: "git add"
+    description: "Add file contents to the index"
+    syntax: "git add [options] [pathspec...]"
+    examples:
+      - command: "git add ."
+        description: "Add all changes in current directory"
+      - command: "git add file.txt"
+        description: "Add specific file"
+      - command: "git add -p"
+        description: "Interactively add changes"
+    common_options:
+      - flag: "-A, --all"
+        description: "Add all changes"
+      - flag: "-p, --patch"
+        description: "Interactively choose hunks"
+
+  - name: "git commit"
+    description: "Record changes to the repository"
+    syntax: "git commit [options]"
+    examples:
+      - command: "git commit -m 'Add new feature'"
+        description: "Commit with inline message"
+      - command: "git commit -am 'Quick fix'"
+        description: "Add all changes and commit"
+    common_options:
+      - flag: "-m"
+        description: "Use given message as commit message"
+      - flag: "-a"
+        description: "Automatically stage modified files"
+
+workflows:
+  - name: "Basic commit workflow"
+    description: "Standard process to commit changes"
+    steps:
+      - "git status          # Check what's changed"
+      - "git add .           # Stage changes"
+      - "git commit -m 'msg' # Commit with message"
+      - "git push            # Push to remote"
+
+troubleshooting:
+  - problem: "fatal: not a git repository"
+    solution: "You're not in a git repository. Use 'git init' to create one or navigate to an existing repo."
+  - problem: "nothing to commit, working tree clean"
+    solution: "All changes are already committed. Use 'git status' to confirm."

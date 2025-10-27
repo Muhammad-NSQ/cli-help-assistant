@@ -1,0 +1,50 @@
+tool_name: "dlens"
+description: "Enhanced directory mapping and visualization tool"
+category: "file_management"
+
+commands:
+  - name: "dlens map"
+    description: "Map directory structure with optional filtering"
+    syntax: "dlens map [path] [options]"
+    examples:
+      - command: "dlens map"
+        description: "Map current directory"
+      - command: "dlens map --filter .py"
+        description: "Show only Python files"
+      - command: "dlens map --show-stats --output-format json"
+        description: "Generate JSON output with statistics"
+      - command: "dlens map --exclude .pyc --show-details"
+        description: "Exclude cache files, show file details"
+    common_options:
+      - flag: "--filter"
+        description: "Include only specified file extensions"
+      - flag: "--exclude"
+        description: "Exclude specified file extensions"
+      - flag: "--show-stats"
+        description: "Display directory statistics"
+      - flag: "--output-format"
+        description: "Output format: text, json, html, markdown"
+
+  - name: "dlens search"
+    description: "Search for files matching patterns"
+    syntax: "dlens search pattern [path] [options]"
+    examples:
+      - command: "dlens search '*.py'"
+        description: "Find all Python files"
+      - command: "dlens search 'test_*' --output-format csv"
+        description: "Find test files, export to CSV"
+    common_options:
+      - flag: "--regex"
+        description: "Use regex pattern matching"
+      - flag: "--case-sensitive"
+        description: "Case-sensitive search"
+      - flag: "--output-format"
+        description: "Export format: text, json, csv, html"
+
+workflows:
+  - name: "Project analysis workflow"
+    description: "Analyze project structure and export results"
+    steps:
+      - "dlens map --show-stats               # Overview"
+      - "dlens map --filter .py --show-details # Python files"
+      - "dlens search 'test_*' --output-format csv # Test files"

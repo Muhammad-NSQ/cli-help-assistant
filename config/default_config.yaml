@@ -1,0 +1,27 @@
+# CLI Help Assistant Configuration
+
+# Model Settings
+model_name: "deepseek-coder"
+model_path: "./models/deepseek-coder-v2-lite"
+embedding_model: "all-MiniLM-L6-v2"
+
+# Generation Parameters
+max_tokens: 150
+temperature: 0.1
+top_p: 0.9
+top_k_results: 5
+chunk_size: 150
+
+# Paths
+knowledge_base_path: "./knowledge"
+embeddings_path: "./knowledge/processed"
+
+# Model Server Settings
+model_server_url: "http://localhost:8000"
+model_server_timeout: 30
+model_server_retries: 3
+use_model_server: true
+
+# Logging
+log_level: "INFO"
+log_file: "./logs/cli-help.log"

@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  model-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.model_server
+    container_name: cli-help-model-server
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./model_server/models:/app/models:ro
+      - ./knowledge:/app/knowledge
+      - ./logs:/app/logs
+    environment:
+      - MODEL_PATH=/app/models/deepseek-coder-6.7b-instruct
+      - HOST=0.0.0.0
+      - PORT=8000
+      - TORCH_DTYPE=float16
+      - MAX_TOKENS=150
+      - TEMPERATURE=0.0
+      - KNOWLEDGE_BASE_PATH=/app/knowledge
+      - EMBEDDINGS_PATH=/app/knowledge/processed
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    networks:
+      - cli-help-network
+
+  cli-help:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cli-help-client
+    depends_on:
+      model-server:
+        condition: service_healthy
+    volumes:
+      - ./logs:/app/logs
+    environment:
+      - MODEL_SERVER_URL=http://model-server:8000
+    networks:
+      - cli-help-network
+    profiles:
+      - cli
+
+networks:
+  cli-help-network:
+    driver: bridge
